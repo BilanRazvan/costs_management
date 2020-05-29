@@ -1,0 +1,21 @@
+.component {
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+  
+    .empty-message{
+      font-size: 18px;
+      margin: 50px auto;
+    }
+
+    .glisant {
+      display: flex;
+      flex-direction: column;
+      overflow-y: scroll;
+    }
+  
+    button {
+      margin-top: auto;
+    }
+  }
+  

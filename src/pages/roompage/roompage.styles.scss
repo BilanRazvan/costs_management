@@ -1,0 +1,14 @@
+.roompage{
+  text-align: center;
+  .title{
+    font-size: 28px;
+    font-weight: bolder;
+  }
+  .components {
+    width: 850px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 30px auto; 
+  }
+}

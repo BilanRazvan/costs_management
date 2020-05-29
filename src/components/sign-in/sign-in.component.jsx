@@ -4,6 +4,8 @@ import CustomButton from '../custom-button/custom-button.component';
 
 import { connect } from 'react-redux';
 import {setCurrentUser} from '../../redux/user/user.actions';
+import {setCurrentRooms} from '../../redux/rooms/rooms.actions';
+import {withRouter} from 'react-router-dom';
 
 import Axios from 'axios';  
 
@@ -11,8 +13,8 @@ import Axios from 'axios';
 import './sign-in.styles.scss';
 
 class SignIn extends React.Component {
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
         this.state = {
             username: '',
             password: '',
@@ -24,6 +26,7 @@ class SignIn extends React.Component {
         event.preventDefault();
 
         const {username, password} = this.state;
+        const{setCurrentUser, history, setCurrentRooms} = this.props;
 
         Axios({
             url:'http://localhost:8080/user/login',
@@ -38,6 +41,19 @@ class SignIn extends React.Component {
             }
         }).then(response => {
             setCurrentUser(response.data)
+            Axios({
+                url:'http://localhost:8080/room/list',
+                method: 'POST',
+                data:({
+                    id: response.data.id
+                }),
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(response=>
+                setCurrentRooms(response.data))
+            history.push('/')
         })
         .catch(error=>{
             this.setState({errorMessage:error.response.data.message})
@@ -84,9 +100,10 @@ class SignIn extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    setCurrentUser: user => dispatch(setCurrentUser(user))
-  });
+    setCurrentUser: user => dispatch(setCurrentUser(user)),
+    setCurrentRooms: rooms => dispatch(setCurrentRooms(rooms))
+});
 
 
 
-export default connect(null,mapDispatchToProps)(SignIn);
+export default withRouter(connect(null,mapDispatchToProps)(SignIn));

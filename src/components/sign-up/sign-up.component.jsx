@@ -2,6 +2,10 @@ import React from 'react';
 import './sign-up.styles.scss';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
+import Axios from 'axios';
+import {withRouter} from 'react-router-dom';
+import { connect } from 'react-redux';
+import {setCurrentUser} from '../../redux/user/user.actions';
 
 class SignUp extends React.Component {
     constructor(){
@@ -12,32 +16,48 @@ class SignUp extends React.Component {
             lastName: '',
             username: '',
             password: '',
-            confirmPassword: ''
+            confirmPassword: '',
+            errorMessage:''
         }
     }
 
     handleSubmit = async event => {
         event.preventDefault();
 
-        const {firstName, lastName, username, password, confirmPassword} = this.state;
+        const {username, password, lastName, firstName, confirmPassword} = this.state;
+        const{setCurrentUser, history} = this.props;
 
         if(password !== confirmPassword){
-            alert("password don't match");
+            this.setState({errorMessage:'The confirmation password does not match'})
+            this.setState({username:'',password:'', lastName:'', firstName:'', confirmPassword:''})
+            setTimeout(()=>this.setState({errorMessage:''}),5000)
             return;
         }
-        try{
+        Axios({
+            url:'http://localhost:8080/user/save',
+            method: 'POST',
+            data:({
+                username: username,
+                password: password,
+                firstName: firstName,
+                lastName: lastName
+            }),
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            setCurrentUser({id: response.data.id,
+                            ...response.data})
+            history.push('/')
+            this.setState({username:'',password:'', lastName:'', firstName:'', confirmPassword:''})
+        })
+        .catch(error=>{
+            this.setState({errorMessage:error.response.data.message})
+            this.setState({username:'',password:'', lastName:'', firstName:'', confirmPassword:''})
+            setTimeout(()=>this.setState({errorMessage:''}),5000)
             
-            this.setState({
-                firstName: '',
-                lastName: '',
-                username: '',
-                password: '',
-                confirmPassword: ''
-            });
-
-        }catch(error){
-            console.log(error);
-        }
+        })
     }
 
     handleChange = event =>{
@@ -47,11 +67,12 @@ class SignUp extends React.Component {
     };
 
     render () {
-        const {firstName, lastName, username, password, confirmPassword} = this.state;
+        const {firstName, lastName, username, password, confirmPassword, errorMessage} = this.state;
         return(
             <div className = 'sign-up'>
                 <h2 className='title'>I do not have an account</h2>
                 <span >Sign up with your username and passsword</span>
+                <span className= 'errorMessage'>{errorMessage}</span>
                 <form 
                 className ='sign-up-form'
                 onSubmit={this.handleSubmit}>
@@ -97,4 +118,8 @@ class SignUp extends React.Component {
     }
 }
 
-export default SignUp;
+const mapDispatchToProps = dispatch => ({
+    setCurrentUser: user => dispatch(setCurrentUser(user))
+});
+
+export default withRouter(connect(null,mapDispatchToProps)(SignUp));
