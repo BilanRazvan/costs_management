@@ -1,0 +1,20 @@
+.member-item {
+    width: 100%;
+    display: flex;
+    min-height: 50px;
+    border-bottom: 1px solid darkgrey;
+    padding: 5px 0;
+    font-size: 17px;
+    align-items: center;
+  
+    
+    .name {
+      width: 80%;
+    }
+  
+    .remove-button {
+      padding-left: 15px;
+      cursor: pointer;
+    }
+  }
+  

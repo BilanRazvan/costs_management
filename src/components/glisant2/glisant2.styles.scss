@@ -1,0 +1,33 @@
+.all{
+  
+    height: 0px;
+  
+  .componenta {
+      width: 450px;
+      height: 350px;
+      display: flex;
+      flex-direction: column;
+    
+      .empty-message{
+        font-size: 18px;
+        margin: 50px auto;
+      }
+  
+      .glisant {
+        display: flex;
+        height: 300px;
+        flex-direction: column;
+        overflow: scroll;
+      }
+    
+      button {
+        margin-top: auto;
+      }
+      
+    }
+  
+    .errorMessage{
+      color: red;
+      padding: 30px 10px;
+  }
+  }

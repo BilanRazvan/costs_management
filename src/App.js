@@ -15,17 +15,22 @@ import {withRouter} from 'react-router-dom';
 import {selectCurrentUser} from "./redux/user/user.selectors";
 import {selectCurrentRoom} from './redux/room/room.selectors';
 
+import {setAllUsers} from './redux/user//user.actions';
+import {setCurrentRoom} from './redux/room/room.actions';
+
 
 
 
 class App extends React.Component {
 
   componentDidMount() {
-    const{currentUser,history } = this.props;
+    const{currentUser, history, setAllUsers} = this.props;
     if(currentUser===null){
       history.push('/signin')
     }
-
+    fetch('http://localhost:8080/user/list')
+    .then(response=> response.json())
+    .then(response=> setAllUsers(response))
   }
 
   render() {
@@ -57,5 +62,11 @@ const mapStateToProps = createStructuredSelector ({
   currentRoom: selectCurrentRoom
 });
 
+const mapDispatchToProps = dispatch => ({
+  setAllUsers: users => dispatch(setAllUsers(users)),
+  setCurrentRoom: room => dispatch(setCurrentRoom(room))
+});
 
-export default withRouter(connect(mapStateToProps)(App));
+
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(App));

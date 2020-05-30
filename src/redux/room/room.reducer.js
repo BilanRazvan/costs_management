@@ -4,7 +4,7 @@ const INITIAL_STATE = {
     currentRoom: null
 }
 
-const roomsReducer = (state = INITIAL_STATE, action) => {
+const roomReducer = (state = INITIAL_STATE, action) => {
     switch(action.type){
         case RoomActionTypes.SET_CURRENT_ROOM:
             return {
@@ -16,4 +16,4 @@ const roomsReducer = (state = INITIAL_STATE, action) => {
     }
 };
 
-export default roomsReducer;
+export default roomReducer;

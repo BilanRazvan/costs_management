@@ -5,7 +5,8 @@ import CustomButton from '../custom-button/custom-button.component';
 import Axios from 'axios';
 import {withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
-import {setCurrentUser} from '../../redux/user/user.actions';
+import {setCurrentUser,addOneUser} from '../../redux/user/user.actions';
+
 
 class SignUp extends React.Component {
     constructor(){
@@ -49,6 +50,7 @@ class SignUp extends React.Component {
         }).then(response => {
             setCurrentUser({id: response.data.id,
                             ...response.data})
+            
             history.push('/')
             this.setState({username:'',password:'', lastName:'', firstName:'', confirmPassword:''})
         })
@@ -119,7 +121,9 @@ class SignUp extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    setCurrentUser: user => dispatch(setCurrentUser(user))
+    setCurrentUser: user => dispatch(setCurrentUser(user)),
+    addOneUser: user => dispatch(addOneUser(user))
 });
+
 
 export default withRouter(connect(null,mapDispatchToProps)(SignUp));
