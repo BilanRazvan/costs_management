@@ -1,0 +1,38 @@
+$sub-color: grey;
+
+.bill-item {
+    align-items: center;
+    width: 57%;
+  
+    .items{
+      padding: 10px 0;
+    }
+
+    .bill-item-header {
+      width: 100%;
+      padding: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid darkgrey;
+  
+      .header-block1 {
+        color: $sub-color;
+        text-align: left;
+        text-transform: capitalize;
+        width: 45%;
+      }
+
+      .header-block2{
+        color: $sub-color;
+        text-transform: capitalize;
+        width: 10%;
+      }
+
+      .header-block3 {
+        color: $sub-color;
+        text-transform: capitalize;
+        width: 15%;
+      }
+    }
+  }
+  

@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import HomePage from './pages/homepage/homepage.component';
 import SignInAndSignUpPage from './pages/sig-in-and-sign-up/sig-in-and-sign-up.component';
 import RoomPage from './pages/roompage/roompage.component.jsx';
+import CreateBillPage from './pages/create-bill-page/create-bill-page.component';
 
 import Header from './components/header/header.component';
 import {withRouter} from 'react-router-dom';
@@ -48,6 +49,12 @@ class App extends React.Component {
           <Route exact path="/room" render={() => 
             this.props.currentRoom ? ( 
               <RoomPage/>)
+          : (
+            <Redirect to ='/'/>
+          )}/>
+          <Route exact path="/room/bill" render={() => 
+            this.props.currentRoom ? ( 
+              <CreateBillPage/>)
           : (
             <Redirect to ='/'/>
           )}/>

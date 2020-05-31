@@ -9,10 +9,15 @@ import {setCurrentUser} from '../../redux/user/user.actions';
 import {setCurrentRoom} from '../../redux/room/room.actions';
 import {resetCurrentRooms} from '../../redux/rooms/rooms.actions';
 import {deleteOneRoom} from '../../redux/rooms/rooms.actions';
+import {setHiddenDelete} from '../../redux/room/room.actions';
+import {setBillAmount, resetBillMembers} from '../../redux/bill/bill.actions';
+import {setCurrentPayments} from '../../redux/payment/payment.actions';
 
 
 import {selectCurrentUser} from '../../redux/user/user.selectors';
 import {selectCurrentRoom} from '../../redux/room/room.selectors';
+import {selectHiddenDelete} from '../../redux/room/room.selectors';
+
 import {withRouter} from 'react-router-dom';
 
 import Axios from 'axios';
@@ -44,8 +49,13 @@ class Header extends React.Component {
 
   }
 
+  handleClick2 = event =>{
+    const {history} = this.props
+    history.push('/room')
+  }
+
   render(){
-    const {currentUser, setCurrentUser, resetCurrentRooms, setCurrentRoom, currentRoom}=this.props
+    const {currentUser, setCurrentUser, resetCurrentRooms, setCurrentRoom, currentRoom, setHiddenDelete, hidden,resetBillMembers,setBillAmount,setCurrentPayments}=this.props
     return (
         <div className = 'header'>
         {currentUser ? (
@@ -59,9 +69,16 @@ class Header extends React.Component {
         )}
         <div className= 'options'>
         {
-          currentRoom && currentUser.id===currentRoom.creator.id ? (
+          currentRoom && currentUser.id===currentRoom.creator.id && hidden===false ? (
             <div className = 'delete-room' onClick={(this.handleClick)} >
             DELETE ROOM
+            </div>
+            ) : null
+        }
+        {
+          currentRoom && hidden===true ? (
+            <div className = 'back-to-room' onClick={(this.handleClick2)} >
+            BACK TO THE ROOM
             </div>
             ) : null
         }
@@ -70,6 +87,10 @@ class Header extends React.Component {
                   setCurrentUser(null)
                   resetCurrentRooms(null)
                   setCurrentRoom(null)
+                  setHiddenDelete(true)
+                  setBillAmount(0)
+                  resetBillMembers([])
+                  setCurrentPayments([])
                 }
               }>
                   SIGN OUT
@@ -89,14 +110,19 @@ class Header extends React.Component {
 
 const mapStateToProps = createStructuredSelector({
     currentUser: selectCurrentUser,
-    currentRoom: selectCurrentRoom
+    currentRoom: selectCurrentRoom,
+    hidden: selectHiddenDelete
 });
 
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
   resetCurrentRooms:rooms => dispatch(resetCurrentRooms(rooms)),
   setCurrentRoom: room => dispatch(setCurrentRoom(room)),
-  deleteOneRoom: room => dispatch(deleteOneRoom(room))
+  deleteOneRoom: room => dispatch(deleteOneRoom(room)),
+  setHiddenDelete: hidden => dispatch(setHiddenDelete(hidden)),
+  setBillAmount: amount =>dispatch(setBillAmount(amount)),
+  resetBillMembers: members =>dispatch(resetBillMembers(members)),
+  setCurrentPayments: payment => dispatch(setCurrentPayments(payment))
 });
 
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Header));

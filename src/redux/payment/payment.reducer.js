@@ -1,7 +1,9 @@
 import {PaymentActionTypes} from './payment.types';
 
+import {updateStatus} from './payment.utils';
+
 const INITIAL_STATE = {
-    currentPayments: null
+    currentPayments: []
 }
 
 const paymentsReducer = (state = INITIAL_STATE, action) => {
@@ -10,6 +12,11 @@ const paymentsReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 currentPayments: action.payload
+            }
+        case PaymentActionTypes.UPDATE_THE_STATUS:
+            return{
+                ...state,
+                currentPayments: updateStatus(state.currentPayments, action.payload)
             }
         default:
             return state;

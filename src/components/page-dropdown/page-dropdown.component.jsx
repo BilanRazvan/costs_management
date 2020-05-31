@@ -43,7 +43,25 @@ class PageDropDown extends React.Component{
         }).then(response => {
             addOneRoom(response.data)
             toggleCreateHidden()
-
+            Axios({
+                url:'http://localhost:8080/member/save',
+                method: 'POST',
+                data:({
+                    user: {
+                        id: currentUser.id
+                    },
+                    room: {
+                        id: response.data.id
+                    },
+                    name:currentUser.firstName + ' ' + currentUser.lastName
+                }),
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(response=>
+                    console.log(response.data)
+                )    
         })
     }
 

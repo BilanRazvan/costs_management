@@ -8,14 +8,19 @@ import { connect } from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
 import {setCurrentRoom} from '../../redux/room/room.actions';
+import {setCurrentPayments} from '../../redux/payment/payment.actions';
+import {setCurrentBillMembers, setBillAmount} from '../../redux/bill/bill.actions';
 import {selectCurrentRooms} from '../../redux/rooms/rooms.selectors';
 import {createStructuredSelector} from 'reselect';
 
 class HomePage extends React.Component {
 
     componentDidMount(){
-        const {setCurrentRoom} = this.props
+        const {setCurrentRoom,setCurrentBillMembers,setBillAmount,setCurrentPayments} = this.props
         setCurrentRoom(null)
+        setCurrentBillMembers([])
+        setBillAmount(0)
+        setCurrentPayments([])
     }
     render() {
         return(
@@ -27,7 +32,10 @@ class HomePage extends React.Component {
 };
 
 const mapDispatchToProps = dispatch => ({
-    setCurrentRoom: room => dispatch(setCurrentRoom(room))
+    setCurrentRoom: room => dispatch(setCurrentRoom(room)),
+    setCurrentBillMembers: members => dispatch(setCurrentBillMembers(members)),
+    setBillAmount: amout => dispatch(setBillAmount(amout)),
+    setCurrentPayments: payment => dispatch(setCurrentPayments(payment))
 });
 
 const mapStateToProps = createStructuredSelector ({

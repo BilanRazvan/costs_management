@@ -1,0 +1,59 @@
+$sub-color: grey;
+
+.create-bill{
+    text-align: center;
+    position: relative;
+    .title{
+      font-size: 28px;
+      font-weight: bolder;
+    }
+
+    .bill-name{
+      display:inline-block;
+      width:30%;
+    }
+
+    .bill-amount{
+      margin-left: 100px;
+      display:inline-block;
+      width:5%;
+    }
+
+    .members{
+      text-align: center;
+
+      .option1{
+        text-align: left;
+        width:30%;
+        display:inline-block;
+        
+      .label{
+        color: $sub-color;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      }
+
+      .option2{
+        margin-left: 100px;
+        width:5%;
+        display:inline-block;
+        cursor: pointer;
+      }
+
+    }
+    .option3{
+      padding: 10px 0;
+      display:flex;
+      margin-left: 30%;
+    }
+
+    .errorMessage{
+      color: red;
+      padding: 30px 10px;
+  }
+
+    .button{
+      margin-left: 44%;
+    }
+  }

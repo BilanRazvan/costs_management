@@ -1,0 +1,41 @@
+$sub-color: grey;
+
+.bill-member{
+    min-height: 50px;
+    font-size: 20px;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+  
+    
+    .name{
+        color: $sub-color;
+        text-align: left;
+        text-transform: capitalize;
+        width: 48%;
+    }
+
+    .form-input{
+        color: $sub-color;
+        text-transform: capitalize;
+        width: 12%;
+    }
+
+    .amount{
+        color: $sub-color;
+        text-transform: capitalize;
+        width: 15%;
+    }
+
+    
+  
+    .remove-button {
+        color: $sub-color;
+        text-transform: capitalize;
+        width: 15%;
+      cursor: pointer;
+    }
+  }
+  

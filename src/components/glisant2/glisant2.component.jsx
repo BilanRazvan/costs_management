@@ -1,29 +1,69 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import CustomButton from '../custom-button/custom-button.component';
+import PaymentItem from '../payment-item/payment-item.component';
 import './glisant2.styles.scss'
 
+import {withRouter} from 'react-router-dom';
 
 import {createStructuredSelector} from 'reselect';
 
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import {selectCurrentMembers} from '../../redux/members/members.selectors';
 import {selectCurrentRoom} from '../../redux/room/room.selectors';
+import {selectCurrentPayments} from '../../redux/payment/payment.selectors';
+
 import {addOneMember} from '../../redux/members/members.actions';
+import {setCurrentPayments} from '../../redux/payment/payment.actions';
+import Axios from 'axios';
 
-
-class Glisant extends React.Component {
+class Glisant2 extends React.Component {
+    componentDidMount(){
+        const {currentUser,currentRoom,setCurrentPayments} = this.props
+        Axios({
+            url:'http://localhost:8080/payment/list',
+            method: 'POST',
+            data:({
+                creator:{
+                    id:currentUser.id
+                },
+                room: {
+                    id:currentRoom.id
+                }
+            }),
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(response=>
+            setCurrentPayments(response.data)
+        )
+    }
+    handleClick = event => {
+        const { match, history} = this.props;
+        history.push(match.url + '/bill')
+    }
 
     render(){
-        const {name} = this.props;
+        const {name, currentPayments} = this.props;
         return (
             <div className= 'all'>
                 <div className='componenta'>
                     <h2>{name}</h2>
                     <div className = 'glisant'>
-                    <span className = 'empty-message'>There are no {name.toLowerCase()}</span>
+                    {
+                        currentPayments.length===0 ? (
+                            <span className = 'empty-message'>There are no {name.toLowerCase()}</span>
+                        ) : (
+                            currentPayments.map(payment=>(
+                                payment!==null ?
+                                (<PaymentItem key={payment.id} payment={payment}>
+                                </PaymentItem>): null
+                            ))
+                        )
+                    }
                     </div>
-                    <CustomButton>
+                    <CustomButton onClick={this.handleClick}>
                     ADD {name}</CustomButton>
                 </div>
          </div>
@@ -34,11 +74,14 @@ class Glisant extends React.Component {
 const mapStateToProps = createStructuredSelector({
     currentUser: selectCurrentUser,
     currentMembers: selectCurrentMembers,
-    currentRoom: selectCurrentRoom
+    currentRoom: selectCurrentRoom,
+    currentPayments: selectCurrentPayments
+
 });
 
 const mapDispatchToProps = dispatch => ({
-    addOneMember: member => dispatch(addOneMember(member))
+    addOneMember: member => dispatch(addOneMember(member)),
+    setCurrentPayments : payments => dispatch(setCurrentPayments(payments))
 });
 
-export default connect(mapStateToProps,mapDispatchToProps)(Glisant);
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Glisant2));

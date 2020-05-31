@@ -5,11 +5,13 @@ import {createStructuredSelector} from 'reselect';
 import {connect} from 'react-redux';
 import PageDropDown from '../page-dropdown/page-dropdown.component';
 
-import {selectCreateHidden} from '../../redux/rooms/rooms.selectors'
-
+import {selectCreateHidden} from '../../redux/rooms/rooms.selectors';
+import {selectCurrentUser} from '../../redux/user/user.selectors';
+ 
 import {toggleCreateHidden} from '../../redux/rooms/rooms.actions';
 import {setCurrentRoom} from '../../redux/room/room.actions';
 import {setCurrentMembers} from '../../redux/members/members.actions';
+import {setHiddenDelete} from '../../redux/room/room.actions';
 
 import './room-preview.styles.scss';
 
@@ -19,9 +21,10 @@ class RoomPreview extends React.Component {
 
     handleSubmit = async event => {
         event.preventDefault();
-        const {room, history, setCurrentRoom, setCurrentMembers}= this.props;
+        const {room, history, setCurrentRoom, setCurrentMembers, setHiddenDelete}= this.props;
         
         setCurrentRoom(room)
+        setHiddenDelete(false)
         history.push('/room')
 
         Axios({
@@ -35,6 +38,8 @@ class RoomPreview extends React.Component {
                 'Content-Type': 'application/json'
             }
         }).then(response => setCurrentMembers(response.data))
+
+        
 
     }
 
@@ -71,11 +76,13 @@ class RoomPreview extends React.Component {
 const mapDispatchToProps  = dispatch => ({
     toggleCreateHidden: () => dispatch(toggleCreateHidden()),
     setCurrentRoom: room => dispatch(setCurrentRoom(room)),
-    setCurrentMembers: members => dispatch(setCurrentMembers(members))
+    setCurrentMembers: members => dispatch(setCurrentMembers(members)),
+    setHiddenDelete: hidden => dispatch(setHiddenDelete(hidden))
 });
 
 const mapStateToProps = createStructuredSelector({
-    hidden: selectCreateHidden
+    hidden: selectCreateHidden,
+    currentUser: selectCurrentUser
 });
 
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(RoomPreview));

@@ -1,0 +1,35 @@
+.payment-item {
+    width: 100%;
+    display: flex;
+    min-height: 50px;
+    border-bottom: 1px solid darkgrey;
+    padding: 5px 0;
+    font-size: 17px;
+    align-items: center;
+  
+    
+    .name {
+        width: 40%;
+    }
+    .price{
+        width: 40%;
+    }
+  
+    .unpaid{
+        width: 20%;
+        padding: 10px 15px;
+        cursor: pointer;
+        background: red;
+        color: white;
+        font-weight: bolder;
+    }
+
+    .paid{
+        width: 20%;
+        padding: 10px 15px;
+        background: green;
+        color: yellow;
+        font-weight: bolder;
+    }
+  }
+  

@@ -21,12 +21,21 @@
       .option {
         padding: 10px 15px;
         cursor: pointer;
+        font-weight: bolder;
       }
       .delete-room{
         padding: 10px 15px;
         cursor: pointer;
         background: red;
         color: white;
+        font-weight: bolder;
+      }
+      .back-to-room{
+        padding: 10px 15px;
+        cursor: pointer;
+        background: pink;
+        color: black;
+        font-weight: bolder;
       }
     }
   }
