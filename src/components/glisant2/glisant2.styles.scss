@@ -7,6 +7,19 @@
       height: 350px;
       display: flex;
       flex-direction: column;
+
+      .raports{
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+
+        .button{
+          width: 50%;
+        }
+        .select{
+          width:50%
+        }
+      }
     
       .empty-message{
         font-size: 18px;

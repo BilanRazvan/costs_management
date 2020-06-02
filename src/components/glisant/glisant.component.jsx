@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import CustomButton from '../custom-button/custom-button.component';
 import './glisant.styles.scss'
 
-import FormInput from '../form-input/form-input.component';
 import MemberItem from '../member-item/member-item.component';
 
 import {createStructuredSelector} from 'reselect';
@@ -12,6 +11,7 @@ import { selectCurrentUser } from '../../redux/user/user.selectors';
 import {selectCurrentMembers} from '../../redux/members/members.selectors';
 import {selectCurrentRoom} from '../../redux/room/room.selectors';
 import {addOneMember} from '../../redux/members/members.actions';
+import Select from 'react-select';
 
 import Axios from 'axios';
 
@@ -112,27 +112,17 @@ class Glisant extends React.Component {
                     ADD {name}</CustomButton>
                 </div>
                 <span className='errorMessage'>{this.state.errorMessage}</span>
-                    <form  >
-                        <FormInput 
-                        name="name" 
-                        type="text" 
-                        handleChange ={this.handleChange}
-                        value = {this.state.name} 
-                        label="SEARCH USER"
-                        required/>
-                    </form>
-                <div className='component-2'>
-                {
-                    users.map(user=>(
-                        user!==null ?
-                            (
-                                <div key={user.id} className='label' tabIndex={user.id} onClick={()=>{
-                                this.setState({ userSelected : {name:user.name, id:user.id}})
-                                }}>
-                                {user.name}
-                            </div>): null
-                    ))
-                }
+                <div>
+                    <Select
+                        name='userSelected'
+                        options={users.map(user=>(
+                            user!==null ?
+                                {label:user.name,value:user.id} : null
+                        ))}
+                        onChange={opt =>(
+                            this.setState({userSelected: {name:opt.label, id:opt.value}}))
+                        }
+                    />
                 </div>
          </div>
         )

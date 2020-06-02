@@ -18,6 +18,14 @@ import {setCurrentPayments} from '../../redux/payment/payment.actions';
 import Axios from 'axios';
 
 class Glisant2 extends React.Component {
+
+    constructor(){
+        super();
+        this.state={
+            selectedValue: ''
+        }
+    }
+
     componentDidMount(){
         const {currentUser,currentRoom,setCurrentPayments} = this.props
         Axios({
@@ -39,7 +47,8 @@ class Glisant2 extends React.Component {
             setCurrentPayments(response.data)
         )
     }
-    handleClick = event => {
+
+    handleClick1 = event => {
         const { match, history} = this.props;
         history.push(match.url + '/bill')
     }
@@ -63,7 +72,7 @@ class Glisant2 extends React.Component {
                         )
                     }
                     </div>
-                    <CustomButton onClick={this.handleClick}>
+                    <CustomButton onClick={this.handleClick1}>
                     ADD {name}</CustomButton>
                 </div>
          </div>

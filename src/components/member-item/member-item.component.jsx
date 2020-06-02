@@ -3,12 +3,19 @@ import './member-item.styles.scss';
 import {connect} from 'react-redux';
 import {deleteMember} from '../../redux/members/members.actions';
 
+import {selectCurrentRoom} from '../../redux/room/room.selectors';
+import {createStructuredSelector} from 'reselect';
+
 import Axios from 'axios';
 
 class MemberItem extends React.Component{
     handleClick = async event =>{
         event.preventDefault()
-        const {member, deleteMember} = this.props
+        const {member, deleteMember, currentRoom} = this.props
+        if(member.user.id===currentRoom.creator.id){
+            return
+        }
+
         Axios({
             url:'http://localhost:8080/member/delete',
             method: 'DELETE',
@@ -37,9 +44,13 @@ class MemberItem extends React.Component{
     }
 };
 
+const mapStateToProps = createStructuredSelector ({
+    currentRoom: selectCurrentRoom
+  });
+
 const mapDispatchToProp = dispatch => ({
   deleteMember: member => dispatch(deleteMember(member))
 });
 
 
-export default connect(null,mapDispatchToProp)(MemberItem);
+export default connect(mapStateToProps,mapDispatchToProp)(MemberItem);
